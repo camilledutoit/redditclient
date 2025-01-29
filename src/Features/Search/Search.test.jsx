@@ -52,7 +52,7 @@ beforeEach(() => {
 
 describe('verify that all elements are displayed',()=>{
     it('checks that the welcome message icon is displayed',()=>{
-        const welcomeMessage = screen.getByText('What topics interest you?')
+        const welcomeMessage = screen.getByText('What\'s on your mind?')
         expect(welcomeMessage).toBeInTheDocument()
     }),
     it('checks that the Reddit icon is displayed',()=>{
@@ -68,7 +68,7 @@ describe('verify that all elements are displayed',()=>{
         expect(textbox).toBeInTheDocument()
     }),
     it('checks that the input placeholder is correct', () => {
-        const placeholder = screen.getByPlaceholderText('type here');
+        const placeholder = screen.getByPlaceholderText('Type here...');
         expect(placeholder).toBeInTheDocument();
     })
 })

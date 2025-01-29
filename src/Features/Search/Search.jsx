@@ -3,6 +3,7 @@ import { useSearchQuery } from "./apisSearchSlice"
 import { useNavigate } from "react-router-dom"
 import { setSearchTerm } from './searchTermSlice';
 import { useDispatch } from 'react-redux';
+import styles from './Search.module.css'
 
 function Search () {
     const [localSearchTerm,setLocalSearchTerm] = useState('')
@@ -45,30 +46,61 @@ function Search () {
         setLocalSearchTerm('')
     }
 
-    return(
-        <div>
-            <div>
-                <img src="../public/Images/reddit_logo.svg" alt="Reddit Logo" />
-                <p>What's on your mind?</p>
+    return (
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <img
+                    src="../public/Images/reddit_logo.svg"
+                    alt="Reddit Logo"
+                    className={styles.logo}
+                />
+                <p className={styles.title}>What's on your mind?</p>
             </div>
-            <form onSubmit={handleSubmit}>
-                <input  type="text"
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.inputContainer}>
+                    <input
+                        type="text"
                         id="searchBar"
                         name="searchBar"
                         value={localSearchTerm}
                         onChange={handleChange}
-                        placeholder="type here"
+                        placeholder="Type here..."
+                        className={styles.input}
                         disabled={isLoading || isFetching}
-                />
-                <img    src="../public/Images/search_icon.svg"
+                    />
+                    <img
+                        src="../public/Images/search_icon.svg"
                         alt="Search Icon"
                         onClick={handleSubmit}
-                />
+                        className={styles.searchIcon}
+                    />
+                </div>
             </form>
-            {(isLoading || isFetching) && <div> <p>Loading...</p> <img src="../public/Images/loading_icon.svg" alt="Loading Icon"/> </div>}
-            {isError && (<p>{error?.message || 'Failed to fetch results'}</p>)}
-            {errorMessage && (<p>{errorMessage}</p>)}
-            {!isLoading && !isError && data?.length === 0 && (<p>No results found for "{submitTerm}"</p>)}
+            <div className={styles.messages}>
+                {(isLoading || isFetching) && (
+                    <div className={styles.loadingMessage}>
+                        <p>Loading...</p>
+                        <img
+                            src="../public/Images/loading_icon.svg"
+                            alt="Loading Icon"
+                            className={styles.loadingIcon}
+                        />
+                    </div>
+                )}
+                {isError && (
+                    <p className={styles.errorMessage}>
+                        {error?.message || 'Failed to fetch results'}
+                    </p>
+                )}
+                {errorMessage && (
+                    <p className={styles.errorMessage}>{errorMessage}</p>
+                )}
+                {!isLoading && !isError && data?.length === 0 && (
+                    <p className={styles.errorMessage}>
+                        No results found for "{submitTerm}"
+                    </p>
+                )}
+            </div>
         </div>
     )
 }
