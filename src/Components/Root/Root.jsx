@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import './Root.module.css'
+
 function Root() {
   return (
     <div>

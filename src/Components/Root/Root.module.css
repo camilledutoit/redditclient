@@ -1,0 +1,132 @@
+/* Root.module.css */
+
+/* Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+/* Root Variables */
+:root {
+  --font-primary: 'Noto Sans', sans-serif;
+  --color-bg: #1a1a1b; /* Reddit dark background */
+  --color-nav-bg: #000000; /* Navbar background */
+  --color-text: #d7dadc; /* Reddit text color */
+  --color-text-muted: #818384; /* Muted text */
+  --color-hover: #ffffff; /* Hover state */
+  --color-active: #ffffff; /* Active link */
+  --color-button-bg: #0079d3; /* Button background */
+  --color-button-bg-hover: #1484d6; /* Button hover */
+  --color-button-text: #ffffff; /* Button text */
+}
+
+/* Base Styles */
+body {
+  font-family: var(--font-primary);
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Header Styles */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--color-nav-bg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* Navbar Styles */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.logoLink {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.logoLink:hover {
+  color: var(--color-hover);
+}
+
+/* Navigation Links */
+.navList {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navLink:hover {
+  color: var(--color-hover);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.activeNavLink {
+  color: var(--color-active);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loginButton,
+.signupButton {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.loginButton {
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+.loginButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.signupButton {
+  background-color: var(--color-button-bg);
+  color: var(--color-button-text);
+}
+
+.signupButton:hover {
+  background-color: var(--color-button-bg-hover);
+}
+
+/* Main Content */
+.main {
+  padding-top: 4rem; /* Offset for fixed navbar */
+}

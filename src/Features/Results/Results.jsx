@@ -6,7 +6,7 @@ import { useFetchSubredditQuery } from "./apiResultsSlice"
 
 function Results () {
     const [filterTerm,setFilterTerm]=useState('')
-    const [sortedItems, setSortedItems] = useState([])
+    const [sortOrder, setSortOrder] = useState(null)
     const [selectedResult, setSelectedResult] = useState(null)
 
     const searchTerm = useSelector(state => state.searchTerm)
@@ -33,21 +33,26 @@ function Results () {
         );
     }
 
+    function getSortedAndFilteredData() {
+        const filtered = getFilteredData();
+        
+        if (!sortOrder) return filtered;
+        
+        return filtered.sort((a, b) => {
+            const comparison = a.display_name_prefixed.localeCompare(b.display_name_prefixed);
+            return sortOrder === 'asc' ? comparison : -comparison;
+        });
+    }
+
     const handleAscending = () => {
-        const sorted = [...getFilteredData()].sort((a, b) => 
-            a.display_name_prefixed.localeCompare(b.display_name_prefixed)
-        )
-        setSortedItems(sorted)
+        setSortOrder('asc');
     }
-
+    
     const handleDescending = () => {
-        const sorted = [...getFilteredData()].sort((a, b) => 
-            b.display_name_prefixed.localeCompare(a.display_name_prefixed)
-        )
-        setSortedItems(sorted)
+        setSortOrder('desc');
     }
 
-    const filteredItems = sortedItems.length > 0 ? sortedItems : getFilteredData()
+    const displayedItems = getSortedAndFilteredData()
 
     function handleSelection(item) {
         setSelectedResult(item.display_name)
@@ -90,7 +95,7 @@ function Results () {
             </div>
             <div>
                 <ul>
-                    {filteredItems.map(item=>(
+                    {displayedItems.map(item=>(
                         <li key={item.id}>
                             <Link to={`/results/${item.display_name}`} onClick={() => handleSelection(item)}>
                                 <div>

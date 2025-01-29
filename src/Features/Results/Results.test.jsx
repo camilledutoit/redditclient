@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react"
+import { render, screen, waitFor, cleanup } from "@testing-library/react"
 import Results from "./Results";
 import Subreddit from "../../Components/Subreddit/Subreddit";
 import { Provider } from 'react-redux'
@@ -7,6 +7,9 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import apiSearchSlice from "../Search/apisSearchSlice";
 import apiResultsSlice from "./apiResultsSlice";
+import { setSearchTerm } from "../Search/searchTermSlice";
+
+
 global.fetch = jest.fn()
 
 let mockApiState = {
@@ -73,6 +76,8 @@ jest.mock('./apiResultsSlice', () => ({
 let user
   
   beforeEach(() => {
+    store.dispatch(setSearchTerm('react'))
+    
     render(
         <Provider store={store}>
             <MemoryRouter initialEntries={['/results']}>
@@ -132,6 +137,9 @@ describe('verify that fetched data is correctly displayed and rendered',() => {
     }),
     test('formats subscriber count correctly', () => {
         expect(screen.getByText(/100,000 subscribers/)).toBeInTheDocument();
+    }),
+    test('displays header with search term', () => {
+        expect(screen.getByText(/Search Results for/)).toHaveTextContent(store.getState().searchTerm);
     })
 })
 
@@ -173,9 +181,21 @@ describe('verify that filtering functionality works',() => {
         const filterInput = screen.getByLabelText('Filter results');
         await user.type(filterInput, '   react   ');
         expect(screen.getByText('A JavaScript library')).toBeInTheDocument();
-    })
-
-        // Test filtering with special characters    
+    }),
+    test('clears filter input and shows all results', async () => {
+        const filterInput = screen.getByLabelText('Filter results');
+        await user.type(filterInput, 'react');
+        await user.clear(filterInput);
+        expect(screen.getAllByRole('listitem')).toHaveLength(2);
+    }),
+    test('applies sort after changing filter', async () => {
+        await user.click(screen.getByAltText('Ascending Icon'));
+        const filterInput = screen.getByLabelText('Filter results');
+        await user.type(filterInput, 'react');
+        const items = await screen.findAllByRole('listitem');
+        expect(items).toHaveLength(1);
+        expect(items[0]).toHaveTextContent('react');
+    })    
 })
 
 describe('verify that sorting functionality works',() => {
@@ -256,12 +276,11 @@ describe('verify handling of missing data', () => {
 
 describe('verify handling of null or undefined data', () => {
     beforeEach(() => {
+        cleanup();
         mockApiState = {
+            ...mockApiState,
             data: [],
-            isLoading: false,
-            error: null
         };
-        
         render(
             <Provider store={store}>
                 <MemoryRouter initialEntries={['/results']}>
@@ -269,9 +288,8 @@ describe('verify handling of null or undefined data', () => {
                 </MemoryRouter>
             </Provider>
         );
-    })
+    });
     test('handles null data gracefully', () => {
-        screen.debug()
         expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
     });
 })

@@ -49,7 +49,7 @@ function Search () {
         <div>
             <div>
                 <img src="../public/Images/reddit_logo.svg" alt="Reddit Logo" />
-                <p>What topics interest you?</p>
+                <p>What's on your mind?</p>
             </div>
             <form onSubmit={handleSubmit}>
                 <input  type="text"
