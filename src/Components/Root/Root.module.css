@@ -3,27 +3,13 @@
 /* Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 
-/* Root Variables */
+/* Variables */
 :root {
   --font-primary: 'Noto Sans', sans-serif;
-  --color-bg: #1a1a1b; /* Reddit dark background */
-  --color-nav-bg: #000000; /* Navbar background */
   --color-text: #d7dadc; /* Reddit text color */
-  --color-text-muted: #818384; /* Muted text */
-  --color-hover: #ffffff; /* Hover state */
-  --color-active: #ffffff; /* Active link */
-  --color-button-bg: #0079d3; /* Button background */
-  --color-button-bg-hover: #1484d6; /* Button hover */
-  --color-button-text: #ffffff; /* Button text */
-}
-
-/* Base Styles */
-body {
-  font-family: var(--font-primary);
-  margin: 0;
-  padding: 0;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  --color-hover-bg: #fc713e; /* Hover background (Reddit red) */
+  --color-active-bg: #ff4500; /* Active background (Reddit red) */
+  --color-hover-text: #ffffff; /* Hover text color */
 }
 
 /* Header Styles */
@@ -32,101 +18,54 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--color-nav-bg);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  background-color: #ffffff;
   z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Navbar Styles */
 .nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly; /* Even spacing between logo, Home, and About */
   align-items: center;
-  padding: 0.5rem 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 0.75rem 1rem;
 }
 
+/* Logo Styles */
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
-}
-
-.logoLink {
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.logoLink:hover {
-  color: var(--color-hover);
+  color: #ff4500; /* Reddit red */
+  margin: 0;
 }
 
 /* Navigation Links */
 .navList {
   display: flex;
-  gap: 1rem;
   list-style: none;
   margin: 0;
   padding: 0;
+  flex-grow: 1; /* Home and About will take up more space */
+  justify-content: space-evenly; /* Distribute links evenly */
 }
 
 .navLink {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: #979797;
   text-decoration: none;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   transition: background-color 0.2s ease, color 0.2s ease;
+  text-align: center;
 }
 
 .navLink:hover {
-  color: var(--color-hover);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #fc713e; /* Reddit red hover background */
+  color: #ffffff; /* White text on hover */
 }
 
 .activeNavLink {
-  color: var(--color-active);
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Buttons */
-.actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.loginButton,
-.signupButton {
-  font-family: var(--font-primary);
-  font-size: 0.875rem;
-  font-weight: 700;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.loginButton {
-  background-color: transparent;
-  color: var(--color-text);
-}
-
-.loginButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.signupButton {
-  background-color: var(--color-button-bg);
-  color: var(--color-button-text);
-}
-
-.signupButton:hover {
-  background-color: var(--color-button-bg-hover);
-}
-
-/* Main Content */
-.main {
-  padding-top: 4rem; /* Offset for fixed navbar */
+  background-color: #ff4500; /* Reddit red active background */
+  color: #ffffff; /* White text for active link */
 }

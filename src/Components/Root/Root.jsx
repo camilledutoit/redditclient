@@ -1,19 +1,43 @@
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-import './Root.module.css'
+import styles from './Root.module.css';
 
 function Root() {
   return (
     <div>
-      <header>
-        <nav>
-          <ul>
-            <li><NavLink to='/' className={({isActive})=> isActive ? "activeNavLink" : "inactiveNavLink"}>Home</NavLink></li>
-            <li><NavLink to='/about' className={({isActive})=> isActive ? "activeNavLink" : "inactiveNavLink"}>About</NavLink></li>
+      <header className={styles.header}>
+        <nav className={styles.nav}>
+          <p className={styles.logo}>Reddit Client</p>
+          <ul className={styles.navList}>
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.navLink} ${styles.activeNavLink}`
+                    : `${styles.navLink}`
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.navLink} ${styles.activeNavLink}`
+                    : `${styles.navLink}`
+                }
+              >
+                About
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </header>
-      <main>
+      <main className={styles.main}>
         <Outlet />
       </main>
     </div>
