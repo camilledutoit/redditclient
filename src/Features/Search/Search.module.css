@@ -93,14 +93,19 @@ body {
     margin-top: 1rem;
   }
   
-  .loadingMessage,
-  .errorMessage {
-    font-size: 0.9rem;
+  .loadingMessage {
+    font-size: 2rem;
+    font-size: 700;
     color: #ff4500; /* Reddit red for errors */
   }
   
   .loadingIcon {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     margin-left: 0.5rem;
+  }
+
+  .errorMessage {
+    font-size: 0.9rem;
+    color: red; /* Reddit red for errors */
   }

@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useSelector } from 'react-redux'
 import { useFetchSubredditQuery } from "./apiResultsSlice"
+import styles from './Results.module.css'
 
 function Results () {
     const [filterTerm,setFilterTerm]=useState('')
@@ -27,9 +28,12 @@ function Results () {
         const trimmedFilterTerm = filterTerm.trim().toLowerCase();
         
         return data.filter(item => 
-            (item.display_name?.toLowerCase().includes(trimmedFilterTerm) || false) ||
-            (item.title?.toLowerCase().includes(trimmedFilterTerm) || false) ||
-            (item.public_description?.toLowerCase().includes(trimmedFilterTerm) || false)
+            item.subreddit_type !== 'private' &&
+            (
+                (item.display_name?.toLowerCase().includes(trimmedFilterTerm) || false) ||
+                (item.title?.toLowerCase().includes(trimmedFilterTerm) || false) ||
+                (item.public_description?.toLowerCase().includes(trimmedFilterTerm) || false)
+            )
         );
     }
 
@@ -59,67 +63,132 @@ function Results () {
     }
 
     return (
-        <div data-testid="results-page">
-            <div>
-                <img src="../../public/Images/reddit_logo.svg" alt="Reddit Logo" />
-                <h1>Search Results for "{searchTerm}":</h1>
+        <div data-testid="results-page" className={styles.resultsPage}>
+          {/* Search results header */}
+          <div className={styles.resultsHeader}>
+            <img
+              src="../../public/Images/reddit_logo.svg"
+              alt="Reddit Logo"
+              className={styles.logo}
+            />
+            <h1 className={styles.searchTitle}>
+              Search Results for "{searchTerm}":
+            </h1>
+          </div>
+          <div className={styles.searchResults}>
+            <p>{displayedItems.length} results</p>
+          </div>          
+    
+          {/* Filters and Sorting */}
+          <div className={styles.resultsContainer}>
+            <div className={styles.filterContainer}>
+              <label htmlFor="filterResults" className={styles.filterLabel}>
+                Filter results:
+              </label>
+              <input
+                type="text"
+                id="filterResults"
+                name="filterResults"
+                value={filterTerm}
+                onChange={handleChange}
+                placeholder="Type here"
+                className={styles.filterInput}
+              />
             </div>
-            <div>
-                <div>
-                    <label htmlFor="filterResults">Filter results</label>
-                    <input  type="text"
-                            id="filterResults"
-                            name="filterResults"
-                            value={filterTerm}
-                            onChange={handleChange}
-                            placeholder="type here"
-                    />
+            <div className={styles.sortContainer}>
+              <h2 className={styles.sortTitle}>Order by:</h2>
+              <div className={styles.sortButtons}>
+                <div className={styles.sortButton} onClick={handleAscending}>
+                  <img
+                    src="../../public/Images/ascending_icon.svg"
+                    alt="Ascending Icon"
+                    className={styles.sortIcon}
+                  />
+                  <p>ASC</p>
                 </div>
-                <div>
-                    <h2>Order by:</h2>
-                    <div>
-                        <p>ASC</p>
-                        <img    src="../../public/Images/ascending_icon.svg"
-                                alt="Ascending Icon"
-                                onClick={handleAscending}
-                        />
-                    </div>
-                    <div>
-                        <p>DESC</p>
-                        <img    src="../../public/Images/descending_icon.svg"
-                                alt="Descending Icon"
-                                onClick={handleDescending}
-                        />
-                    </div>
+                <div className={styles.sortButton} onClick={handleDescending}>
+                  <img
+                    src="../../public/Images/descending_icon.svg"
+                    alt="Descending Icon"
+                    className={styles.sortIcon}
+                  />
+                  <p>DESC</p>
                 </div>
+              </div>
             </div>
-            <div>
-                <ul>
-                    {displayedItems.map(item=>(
-                        <li key={item.id}>
-                            <Link to={`/results/${item.display_name}`} onClick={() => handleSelection(item)}>
-                                <div>
-                                    <img src={item.icon_img || '../../public/Images/default_subreddit_icon.svg'} alt="Subreddit Icon Image" />
-                                    <p>{item.display_name_prefixed} · created on {new Date(item.created_utc * 1000).toLocaleDateString()} ·
-                                    {item.subscribers ? item.subscribers.toLocaleString() : "no subscriber data available"} subscribers</p>
-                                </div>
-                                <div>
-                                    <h3>{item.title}</h3>
-                                    <p>{item.public_description}</p>
-                                </div>
-                                <div>
-                                    <img    src="../../public/Images/globe_icon.svg"
-                                            alt="Public Icon"
-                                    />
-                                    <p>{item.subreddit_type}</p>
-                                </div>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+          </div>
+    
+          {/* Subreddit list */}
+          <div className={styles.subredditsContainer}>
+            <ul className={styles.subredditList}>
+              {displayedItems.map((item) => (
+                <li
+                  key={item.id}
+                  className={styles.subredditItem}
+                  onClick={() => handleSelection(item)}
+                >
+                  <Link
+                    to={`/results/${item.display_name}`}
+                    className={styles.subredditLink}
+                  >
+                    <div className={styles.subredditContent}>
+                      {/* Left: Subreddit Icon */}
+                      <div className={styles.subredditLeft}>
+                        <img
+                          src={
+                            item.icon_img ||
+                            "../../public/Images/subreddit_icon.svg"
+                          }
+                          alt="Subreddit Icon"
+                          className={styles.subredditIcon}
+                        />
+                      </div>
+                      {/* Center: Subreddit Info */}
+                      <div className={styles.subredditCenter}>
+                        <div className={styles.subredditHeader}>
+                          <p className={styles.subredditName}>
+                            {item.display_name_prefixed}
+                          </p>
+                          <p className={styles.subredditDetails}>
+                            created on{" "}
+                            {new Date(item.created_utc * 1000).toLocaleDateString()}{" "}
+                            &nbsp;&nbsp;·&nbsp;&nbsp;{" "}
+                            {item.subscribers
+                              ? `${item.subscribers.toLocaleString()} subscribers`
+                              : "no subscriber data available"}{" "}
+                          </p>
+                        </div>
+                        <h3 className={styles.subredditTitle}>{item.title}</h3>
+                        <p className={styles.subredditDescription}>
+                          {item.public_description ? item.public_description : 'no description for this r/subreddit'}
+                        </p>
+                      </div>
+                      {/* Right: Banner Image */}
+                      <div className={styles.subredditRight}>
+                            <img
+                                src={
+                                item.banner_img || "../../public/Images/subreddit_banner.svg"
+                                }
+                                alt="Subreddit Banner"
+                                className={styles.bannerImage}
+                            />
+                            <div className={styles.subredditInfo}>
+                                <img
+                                src="../../public/Images/globe_icon.svg"
+                                alt="Globe Icon"
+                                className={styles.globeIcon}
+                                />
+                                <p className={styles.subredditType}>{item.subreddit_type}</p>
+                            </div>
+                       </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-    )
+      )
 }
 
 export default Results

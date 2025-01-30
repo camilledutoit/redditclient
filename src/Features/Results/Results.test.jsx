@@ -104,7 +104,7 @@ jest.mock('react-router-dom', () => ({
 describe('verify that initial rendering is adquate',() => {
     test('displays default UI elements', () => {
         expect(screen.getByAltText('Reddit Logo')).toBeInTheDocument()
-        expect(screen.getByLabelText('Filter results')).toBeInTheDocument()
+        expect(screen.getByLabelText('Filter results:')).toBeInTheDocument()
         expect(screen.getByText('Order by:')).toBeInTheDocument()
         expect(screen.getByText('ASC')).toBeInTheDocument()
         expect(screen.getByAltText('Ascending Icon')).toBeInTheDocument()
@@ -112,7 +112,7 @@ describe('verify that initial rendering is adquate',() => {
         expect(screen.getByAltText('Descending Icon')).toBeInTheDocument()
     }),
     test('filter input is empty by default', () => {
-        const filterInput = screen.getByLabelText('Filter results')
+        const filterInput = screen.getByLabelText('Filter results:')
         expect(filterInput.value).toBe('')
     })
 })
@@ -127,8 +127,8 @@ describe('verify that fetched data is correctly displayed and rendered',() => {
         expect(subredditDescription).toBeInTheDocument();
     }),
     test('uses fallback image when icon_img is missing', () => {
-        const fallbackImages = screen.getAllByAltText('Subreddit Icon Image');
-        expect(fallbackImages[1].src).toContain('default_subreddit_icon.svg');
+        const fallbackImages = screen.getAllByAltText('Subreddit Icon');
+        expect(fallbackImages[1].src).toContain('subreddit_icon.svg');
     }),
     test('formats date correctly', () => {
         const dates = screen.getAllByText(/31\/12\/2014/);
@@ -145,52 +145,52 @@ describe('verify that fetched data is correctly displayed and rendered',() => {
 
 describe('verify that filtering functionality works',() => {
     test('filters by subreddit name', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'react');
         expect(screen.getByText('A JavaScript library')).toBeInTheDocument();
         expect(screen.queryByText('Programming language')).not.toBeInTheDocument();
     }),
     test('filters by title', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'JS');
         expect(screen.getByText('A JavaScript library')).toBeInTheDocument();
         expect(screen.queryByText('Programming language')).not.toBeInTheDocument();
       });
       test('filters by description', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'Programming');
         expect(screen.queryByText('A JavaScript library')).not.toBeInTheDocument();
         expect(screen.getByText('Programming language')).toBeInTheDocument();
       }),
       test('filters are case insensitive', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'REaCT');
         expect(screen.getByText('A JavaScript library')).toBeInTheDocument();
       }),
       test('shows no results when filter has no matches', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'nonexistent');
         expect(screen.queryByAltText('Public Icon')).not.toBeInTheDocument();
       }),
       test('handles special characters in filter', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, '!@#$%');
         expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
       }),
       test('handles whitespace in filter', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, '   react   ');
         expect(screen.getByText('A JavaScript library')).toBeInTheDocument();
     }),
     test('clears filter input and shows all results', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'react');
         await user.clear(filterInput);
         expect(screen.getAllByRole('listitem')).toHaveLength(2);
     }),
     test('applies sort after changing filter', async () => {
         await user.click(screen.getByAltText('Ascending Icon'));
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'react');
         const items = await screen.findAllByRole('listitem');
         expect(items).toHaveLength(1);
@@ -212,14 +212,14 @@ describe('verify that sorting functionality works',() => {
         expect(items[1]).toHaveTextContent('javascript');
       }),    
       test('maintains filter while sorting', async () => {
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'react');
         await user.click(screen.getByAltText('Ascending Icon'));
         expect(screen.getAllByRole('listitem')).toHaveLength(1);
       }),
       test('maintains sort order after filter changes', async () => {
         await user.click(screen.getByAltText('Ascending Icon'));
-        const filterInput = screen.getByLabelText('Filter results');
+        const filterInput = screen.getByLabelText('Filter results:');
         await user.type(filterInput, 'react');
         await user.clear(filterInput);        
         const items = screen.getAllByRole('listitem');
