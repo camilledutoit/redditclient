@@ -55,6 +55,7 @@ function Search () {
                     className={styles.logo}
                 />
                 <p className={styles.title}>What's on your mind?</p>
+                <p className={styles.titleMobile}>What's up?</p>
             </div>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.inputContainer}>

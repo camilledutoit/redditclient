@@ -37,6 +37,14 @@ body {
     color: #353131; /* Dark text color */
     margin: 0;
   }
+
+  .titleMobile {
+    display: none;
+    font-size: 1.75rem; /* Slightly larger title */
+    font-weight: 700;
+    color: #353131; /* Dark text color */
+    margin: 0;
+  }
   
   /* Form */
   .form {
@@ -108,4 +116,30 @@ body {
   .errorMessage {
     font-size: 0.9rem;
     color: red; /* Reddit red for errors */
+  }
+
+  @media (max-width: 800px) {
+    .title {
+      display: none;
+    }
+
+    .titleMobile {
+      display:block;
+    }
+
+    .logo {
+      width: 60px; /* Slightly larger logo */
+      height: auto;
+    }
+
+    .inputContainer {
+      display: flex;
+      align-items: center;
+      background-color: #ffffff; /* White input background */
+      border: 1px solid #d7dadc; /* Light gray border */
+      border-radius: 50px; /* Fully rounded edges */
+      padding: 0.4rem 4rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      transition: border-color 0.2s ease-in-out;
+    }
   }
