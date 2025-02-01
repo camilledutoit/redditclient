@@ -4,6 +4,12 @@ import { Link } from "react-router-dom"
 import { useSelector } from 'react-redux'
 import { useFetchSubredditQuery } from "./apiResultsSlice"
 import styles from './Results.module.css'
+import redditLogo from '../../assets/Images/reddit_logo.svg'
+import ascendingIcon from '../../assets/Images/ascending_icon.svg'
+import descendingIcon from '../../assets/Images/descending_icon.svg'
+import subredditIcon from '../../assets/Images/subreddit_icon.svg'
+import subredditBanner from '../../assets/Images/subreddit_banner.svg'
+import globeIcon from '../../assets/Images/globe_icon.svg'
 
 function Results () {
     const [filterTerm,setFilterTerm]=useState('')
@@ -67,7 +73,7 @@ function Results () {
           {/* Search results header */}
           <div className={styles.resultsHeader}>
             <img
-              src="../../public/Images/reddit_logo.svg"
+              src={redditLogo}
               alt="Reddit Logo"
               className={styles.logo}
             />
@@ -112,7 +118,7 @@ function Results () {
               <div className={styles.sortButtons}>
                 <div className={styles.sortButton} onClick={handleAscending}>
                   <img
-                    src="../../public/Images/ascending_icon.svg"
+                    src={ascendingIcon}
                     alt="Ascending Icon"
                     className={styles.sortIcon}
                   />
@@ -120,7 +126,7 @@ function Results () {
                 </div>
                 <div className={styles.sortButton} onClick={handleDescending}>
                   <img
-                    src="../../public/Images/descending_icon.svg"
+                    src={descendingIcon}
                     alt="Descending Icon"
                     className={styles.sortIcon}
                   />
@@ -149,7 +155,7 @@ function Results () {
                         <img
                           src={
                             item.icon_img ||
-                            "../../public/Images/subreddit_icon.svg"
+                            subredditIcon
                           }
                           alt="Subreddit Icon"
                           className={styles.subredditIcon}
@@ -179,14 +185,14 @@ function Results () {
                       <div className={styles.subredditRight}>
                             <img
                                 src={
-                                item.banner_img || "../../public/Images/subreddit_banner.svg"
+                                item.banner_img || {subredditBanner}
                                 }
                                 alt="Subreddit Banner"
                                 className={styles.bannerImage}
                             />
                             <div className={styles.subredditInfo}>
                                 <img
-                                src="../../public/Images/globe_icon.svg"
+                                src={globeIcon}
                                 alt="Globe Icon"
                                 className={styles.globeIcon}
                                 />

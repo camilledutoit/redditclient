@@ -3,9 +3,10 @@ import { useSearchQuery } from "../../Features/Search/apisSearchSlice";
 import { useParams } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import styles from './Subreddit.module.css'
-import reddituser1Icon from '../../../public/Images/reddituser1_icon.svg';
-import reddituser2Icon from '../../../public/Images/reddituser2_icon.svg';
-import reddituser3Icon from '../../../public/Images/reddituser3_icon.svg';
+import reddituser1Icon from '../../assets/Images/reddituser1_icon.svg';
+import reddituser2Icon from '../../assets/Images/reddituser2_icon.svg';
+import reddituser3Icon from '../../assets/Images/reddituser3_icon.svg';
+import subredditIcon from '../../assets/Images/subreddit_icon.svg'
 import { useState } from "react";
 
 function Subreddit () {
@@ -77,7 +78,7 @@ function Subreddit () {
 
         <div className={styles.subredditInfo}>
           <img
-            src={"../../public/Images/subreddit_icon.svg"}
+            src={subredditIcon}
             alt="Subreddit Icon"
             className={styles.subredditIcon}
           />

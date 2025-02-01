@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"
 import { setSearchTerm } from './searchTermSlice';
 import { useDispatch } from 'react-redux';
 import styles from './Search.module.css'
+import searchIcon from '../../assets/Images/search_icon.svg'
+import redditLogo from '../../assets/Images/reddit_logo.svg'
 
 function Search () {
     const [localSearchTerm,setLocalSearchTerm] = useState('')
@@ -50,7 +52,7 @@ function Search () {
         <div className={styles.container}>
             <div className={styles.header}>
                 <img
-                    src="../public/Images/reddit_logo.svg"
+                    src={redditLogo}
                     alt="Reddit Logo"
                     className={styles.logo}
                 />
@@ -70,7 +72,7 @@ function Search () {
                         disabled={isLoading || isFetching}
                     />
                     <img
-                        src="../public/Images/search_icon.svg"
+                        src={searchIcon}
                         alt="Search Icon"
                         onClick={handleSubmit}
                         className={styles.searchIcon}
@@ -82,7 +84,7 @@ function Search () {
                     <div className={styles.loadingMessage}>
                         <p>Loading...</p>
                         <img
-                            src="../public/Images/loading_icon.svg"
+                            src={searchIcon}
                             alt="Loading Icon"
                             className={styles.loadingIcon}
                         />
