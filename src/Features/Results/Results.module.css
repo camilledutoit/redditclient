@@ -13,17 +13,31 @@
     align-items: center;
     gap: 1.5rem;
     margin-bottom: 0.25rem; /* Reduced space between header and count */
+    width: 100%;
+    justify-content: left;
   }
-  
+
   .logo {
     width: 60px;
     height: auto;
   }
   
+  .searchTitle, .searchTitleMobile {
+    font-weight: bold;
+    margin: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    text-align:left;
+    hyphens: auto;
+  }
+
   .searchTitle {
     font-size: 2rem;
-    font-weight: bold;
-    margin: 0; /* Remove default margin if any */
+  }
+
+  .searchTitleMobile {
+    display: none;
+    font-size: 1.5rem;
   }
   
   /* Search Results Count */
@@ -67,6 +81,15 @@
     border: 1px solid #d7dadc;
     border-radius: 20px;
     padding: 0.5rem;
+    font-size: 1rem;
+    width: 270px;
+  }
+
+  .filterInputMobile {
+    display:none;
+    border: 1px solid #d7dadc;
+    border-radius: 20px;
+    padding: 0.35rem;
     font-size: 1rem;
     width: 270px;
   }
@@ -199,6 +222,7 @@
   .subredditDetails {
     font-size: 0.85rem;
     color: #353131;
+    text-align: left;
   }
   
   /* Title and Description */
@@ -206,24 +230,24 @@
     font-size: 1.5rem;
     font-weight: bold;
     color: #353131;
-    text-align: left; /* Aligns the text to the left */
-    margin: 0; /* Removes extra spacing */
-    max-width: 100%; /* Ensures the title doesn't exceed the parent container width */
-    overflow: hidden; /* Hides overflowing content */
-    text-overflow: ellipsis; /* Adds "..." for truncated unbroken words */
-    white-space: normal; /* Allows text to wrap */
-    word-break: break-word; /* Breaks long unbroken words to fit within the container */
-    overflow-wrap: anywhere; /* Wraps extremely long words (even if there are no spaces) */
+    text-align: left;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limits text to 2 lines */
+    -webkit-box-orient: vertical;
+    word-break: break-word;
   }
   
   .subredditDescription {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #353131;
     text-align: left; /* Ensures alignment to the left */
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-line-clamp: 3; /* Limit to 2 lines */
     -webkit-box-orient: vertical; /* Required for line clamping */
   }
   
@@ -262,4 +286,228 @@
     margin: 0; /* Remove default margin from the paragraph */
     font-size: 0.8rem; /* Match the font size with the globe icon */
     text-transform: capitalize; /* Capitalize the subreddit type for readability */
+  }
+
+  @media (width<1000px) {
+  
+    .resultsPage {
+      margin-top: 50px;
+    }
+  
+    .sortContainer {
+      display: none;
+    }
+
+    .searchResults {
+      display: none
+    }
+
+    .resultsHeader, .resultsContainer {
+      justify-content: center;
+    }
+
+    .filterContainer {
+      padding-top: 1.5rem;
+    }
+
+    .details {
+      display: none;
+    }
+
+    .subredditDescription {
+      -webkit-line-clamp: 2; /* Limit to 2 lines */
+
+    }
+
+    .subredditRight {
+      display: none;
+    }
+
+  }
+
+  @media (width<800px) {
+    .resultsPage {
+      margin-top: 20px;
+    }
+
+    .sortContainer {
+      display: none;
+    }
+
+    .searchResults {
+      display: none
+    }
+
+    .filterContainer {
+      padding-top: 1.5rem;
+    }
+
+    .logo {
+      width: 40px;
+      height: auto;
+    }
+
+    .searchTitle {
+      display: none;
+    }
+
+    .searchTitleMobile {
+      display: block;
+    }
+
+    .filterLabel {
+      font-size: 1.15rem;
+    }
+
+    .filterInput {
+      padding: 0.35rem
+    }
+
+    .subredditLeft {
+        min-width: 100px;
+        max-width: 100px;
+        padding-left: 1rem;
+        padding-right: 1.5rem;
+    }
+
+    .subredditCenter{
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    .subredditItem {
+      padding: 0px;
+    }
+
+    .subredditDetails {
+      display: none;
+    }
+
+    .subredditTitle{
+      font-size: 1.25rem;
+    }
+
+    .subredditDescription {
+      font-size: 0.85rem;
+    }
+
+    .subredditName {
+      font-size: 0.8rem;
+    }
+
+    .subredditItem{
+      height: 200px;
+    }
+  }
+
+  @media (width<600px) {
+
+    .resultsContainer {
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+    }
+  
+    .searchTitleMobile {
+      font-size:1.25rem;
+    }
+
+  .filterContainer {
+    padding-top: 1rem;
+  }
+
+  .filterLabel {
+    display: none;
+  }
+
+  .filterInput {
+    display:none;
+  }
+
+  .filterInputMobile {
+    display: block;
+    text-align: center;
+  }
+
+  .subredditLeft {
+    min-width: 75px;
+    max-width: 75px;
+    padding-left: 1rem;
+    padding-right: 1.5rem;
+  }
+
+  .subredditDescription {
+    display:none;
+  }
+
+  .subredditItem{
+    height: 100px;
+  }
+
+  .subredditTitle {
+    -webkit-line-clamp: 1;
+  }
+  .subredditCenter {
+    padding-bottom: 1rem;
+  }
+}
+
+@media (width<450px) {
+  .subredditLeft {
+    min-width: 40px;
+    max-width: 40px;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+  }
+
+  .subredditCenter {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 1.5rem;
+  }
+
+  .subredditItem{
+    height: 75px;
+  }
+
+  .subredditTitle {
+    font-size: 0.9rem;
+  }
+
+  .subredditName {
+    font-size: 0.7rem;
+    padding-top: 0.9rem;
+    margin-bottom: 0rem;
+  }
+
+  .resultsPage {
+    padding-right: 0.4rem;
+    padding-left: 0.4rem;
+  }
+  
+  }
+
+  @media (width<340px) {
+    .subredditList {
+      max-width: 270px;
+    }
+
+    .filterContainer {
+      max-width: 250px;
+    }
+
+    .subredditsContainer {
+      align-content: center;
+      justify-items: center;
+    }
+    
+    .logo {
+      display:none;
+    }
+
+    .searchTitleMobile {
+      font-size: 1rem;
+    }
+
   }

@@ -74,6 +74,9 @@ function Results () {
             <h1 className={styles.searchTitle}>
               Search Results for "{searchTerm}":
             </h1>
+            <h1 className={styles.searchTitleMobile}>
+              "{searchTerm}" results:
+            </h1>
           </div>
           <div className={styles.searchResults}>
             <p>{displayedItems.length} results</p>
@@ -93,6 +96,15 @@ function Results () {
                 onChange={handleChange}
                 placeholder="Type here"
                 className={styles.filterInput}
+              />
+              <input
+                type="text"
+                id="filterResults"
+                name="filterResults"
+                value={filterTerm}
+                onChange={handleChange}
+                placeholder="Type here to filter results"
+                className={styles.filterInputMobile}
               />
             </div>
             <div className={styles.sortContainer}>
@@ -152,10 +164,10 @@ function Results () {
                           <p className={styles.subredditDetails}>
                             created on{" "}
                             {new Date(item.created_utc * 1000).toLocaleDateString()}{" "}
-                            &nbsp;&nbsp;·&nbsp;&nbsp;{" "}
+                            <span className={styles.details}>&nbsp;&nbsp;·&nbsp;&nbsp;{" "}
                             {item.subscribers
                               ? `${item.subscribers.toLocaleString()} subscribers`
-                              : "no subscriber data available"}{" "}
+                              : "no subscriber data available"}{" "}</span>
                           </p>
                         </div>
                         <h3 className={styles.subredditTitle}>{item.title}</h3>
