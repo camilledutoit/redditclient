@@ -138,10 +138,12 @@ function Subreddit () {
                 )}
                 {comment.is_video? (<video width="100%" controls>
                     <source src={comment.media.reddit_video.fallback_url} type="video/mp4" />
-                </video>) : ''}                
-                <p className={`${styles.text} ${expandedIds.has(comment.id) ? styles.expanded : ''}`}>
-                    {comment.selftext}<a href={comment.url_overridden_by_dest}>{comment.url_overridden_by_dest}</a>
-                </p>
+                </video>) : ''}
+                <div className={styles.descriptionsAndLinks}>               
+                  <p className={`${styles.text} ${expandedIds.has(comment.id) ? styles.expanded : ''}`}>
+                      {comment.selftext}<a href={comment.url_overridden_by_dest}>{comment.url_overridden_by_dest}</a>
+                  </p>
+                </div> 
                 <button 
                     onClick={() => toggleExpand(comment.id)}
                     className={styles.expandButton}

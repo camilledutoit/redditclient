@@ -163,7 +163,7 @@
     padding-bottom: 1rem;
   }
 
-  .postImage p {
+  .descriptionsAndLinks {
     margin-top: 0rem;
     text-align: left;
     word-wrap: break-word;      /* Breaks long words if necessary */
@@ -171,25 +171,34 @@
     font-size: 0.9rem;
 }
 
-.postImage a {
-    font-weight: 700;
+.descriptionsAndLinks a {
+  font-weight: 700;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word; /* Ensures long URLs break */
+  white-space: normal; /* Prevents inline elements from forcing a single line */
 }
 
-.postImage p.text {
+.descriptionsAndLinks p.text {
     margin-top: 0rem;
     text-align: left;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    word-break: break-word; /* Break long words */
+    white-space: normal; /* Allow text to wrap */
     display: -webkit-box;
-    -webkit-line-clamp: 3;  /* Number of lines to show */
+    -webkit-line-clamp: 3; /* Limit lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
-    max-width: 100%;
+    max-width: 100%; /* Ensure it doesn't exceed its container */
 }
 
-.postImage p.text.expanded {
+.descriptionsAndLinks p.text.expanded {
     -webkit-line-clamp: unset;
     display: block;
+    word-break: break-word; /* Break long words in expanded mode */
+    white-space: normal; /* Allow wrapping */
+    max-width: 100%; /* Prevent overflow */
 }
 
 .expandButton {
