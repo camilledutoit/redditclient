@@ -18,8 +18,8 @@
       #ffffff 40px
     ); /* Red and white diagonal stripes */
     overflow: hidden;
-    margin-left: -35px;
-    padding-right: 68px;
+    margin-left: 0; /* Remove negative margin */
+    padding-right: 1rem; /* Adjust or use responsive units */
   }
   
   /* Subreddit Info (Icon, Title, Stats) */
@@ -208,3 +208,13 @@
     background-color: #cccccc; /* Slightly darker background for better contrast */
     color: #333;
   }
+
+@media (width<1000px) {
+  .commentItem {
+    width: 95%;
+  }
+
+  .commentsGrid {
+    justify-content: center;
+  }
+}

@@ -185,7 +185,7 @@ function Results () {
                       <div className={styles.subredditRight}>
                             <img
                                 src={
-                                item.banner_img || {subredditBanner}
+                                item.banner_img || subredditBanner
                                 }
                                 alt="Subreddit Banner"
                                 className={styles.bannerImage}
