@@ -256,7 +256,21 @@
 <a name='L191'></a><a href='#L191'>191</a>
 <a name='L192'></a><a href='#L192'>192</a>
 <a name='L193'></a><a href='#L193'>193</a>
-<a name='L194'></a><a href='#L194'>194</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -321,6 +335,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">108x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -456,6 +482,7 @@ import { useSelector } from 'react-redux'
 import { useFetchSubredditQuery } from "./apiResultsSlice"
 import styles from './Results.module.css'
 &nbsp;
+&nbsp;
 function Results () {
     const [filterTerm,setFilterTerm]=useState('')
     const [sortOrder, setSortOrder] = useState(null)
@@ -518,12 +545,15 @@ function Results () {
           {/* Search results header */}
           &lt;div className={styles.resultsHeader}&gt;
             &lt;img
-              src="../../public/Images/reddit_logo.svg"
+              src='/src/assets/Images/reddit_logo.svg'
               alt="Reddit Logo"
               className={styles.logo}
             /&gt;
             &lt;h1 className={styles.searchTitle}&gt;
               Search Results for "{searchTerm}":
+            &lt;/h1&gt;
+            &lt;h1 className={styles.searchTitleMobile}&gt;
+              "{searchTerm}" results:
             &lt;/h1&gt;
           &lt;/div&gt;
           &lt;div className={styles.searchResults}&gt;
@@ -545,13 +575,22 @@ function Results () {
                 placeholder="Type here"
                 className={styles.filterInput}
               /&gt;
+              &lt;input
+                type="text"
+                id="filterResults"
+                name="filterResults"
+                value={filterTerm}
+                onChange={handleChange}
+                placeholder="Type here to filter results"
+                className={styles.filterInputMobile}
+              /&gt;
             &lt;/div&gt;
             &lt;div className={styles.sortContainer}&gt;
               &lt;h2 className={styles.sortTitle}&gt;Order by:&lt;/h2&gt;
               &lt;div className={styles.sortButtons}&gt;
                 &lt;div className={styles.sortButton} onClick={handleAscending}&gt;
                   &lt;img
-                    src="../../public/Images/ascending_icon.svg"
+                    src='/src/assets/Images/ascending_icon.svg'
                     alt="Ascending Icon"
                     className={styles.sortIcon}
                   /&gt;
@@ -559,7 +598,7 @@ function Results () {
                 &lt;/div&gt;
                 &lt;div className={styles.sortButton} onClick={handleDescending}&gt;
                   &lt;img
-                    src="../../public/Images/descending_icon.svg"
+                    src='/src/assets/Images/descending_icon.svg'
                     alt="Descending Icon"
                     className={styles.sortIcon}
                   /&gt;
@@ -588,7 +627,7 @@ function Results () {
                         &lt;img
                           src={
                             item.icon_img ||
-                            "../../public/Images/subreddit_icon.svg"
+                            '/src/assets/Images/subreddit_icon.svg'
                           }
                           alt="Subreddit Icon"
                           className={styles.subredditIcon}
@@ -603,10 +642,10 @@ function Results () {
                           &lt;p className={styles.subredditDetails}&gt;
                             created on{" "}
                             {new Date(item.created_utc * 1000).toLocaleDateString()}{" "}
-                            &amp;nbsp;&amp;nbsp;·&amp;nbsp;&amp;nbsp;{" "}
+                            &lt;span className={styles.details}&gt;&amp;nbsp;&amp;nbsp;·&amp;nbsp;&amp;nbsp;{" "}
                             {item.subscribers
                               ? `${item.subscribers.toLocaleString()} subscribers`
-                              : "no subscriber data available"}{" "}
+                              : "no subscriber data available"}{" "}&lt;/span&gt;
                           &lt;/p&gt;
                         &lt;/div&gt;
                         &lt;h3 className={styles.subredditTitle}&gt;{item.title}&lt;/h3&gt;
@@ -618,14 +657,14 @@ function Results () {
                       &lt;div className={styles.subredditRight}&gt;
                             &lt;img
                                 src={
-                                item.banner_img || "../../public/Images/subreddit_banner.svg"
+                                item.banner_img || '/src/assets/Images/subreddit_banner.svg'
                                 }
                                 alt="Subreddit Banner"
                                 className={styles.bannerImage}
                             /&gt;
                             &lt;div className={styles.subredditInfo}&gt;
                                 &lt;img
-                                src="../../public/Images/globe_icon.svg"
+                                src='/src/assets/Images/globe_icon.svg'
                                 alt="Globe Icon"
                                 className={styles.globeIcon}
                                 /&gt;
@@ -649,7 +688,7 @@ export default Results</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-01-31T00:47:05.153Z
+                at 2025-02-02T19:34:38.402Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

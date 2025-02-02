@@ -170,7 +170,9 @@
 <a name='L105'></a><a href='#L105'>105</a>
 <a name='L106'></a><a href='#L106'>106</a>
 <a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -178,11 +180,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">166x</span>
-<span class="cline-any cline-yes">166x</span>
-<span class="cline-any cline-yes">166x</span>
-<span class="cline-any cline-yes">166x</span>
-<span class="cline-any cline-yes">166x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">169x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,7 +193,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">166x</span>
+<span class="cline-any cline-yes">169x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,8 +204,8 @@
 <span class="cline-any cline-yes">121x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">166x</span>
-<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -218,7 +221,8 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">166x</span>
+<span class="cline-any cline-yes">169x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -284,6 +288,7 @@ import { setSearchTerm } from './searchTermSlice';
 import { useDispatch } from 'react-redux';
 import styles from './Search.module.css'
 &nbsp;
+&nbsp;
 function Search () {
     const [localSearchTerm,setLocalSearchTerm] = useState('')
     const [submitTerm, setSubmitTerm] = useState('')
@@ -329,11 +334,12 @@ function Search () {
         &lt;div className={styles.container}&gt;
             &lt;div className={styles.header}&gt;
                 &lt;img
-                    src="../public/Images/reddit_logo.svg"
+                    src="/src/assets/Images/reddit_logo.svg"
                     alt="Reddit Logo"
                     className={styles.logo}
                 /&gt;
                 &lt;p className={styles.title}&gt;What's on your mind?&lt;/p&gt;
+                &lt;p className={styles.titleMobile}&gt;What's up?&lt;/p&gt;
             &lt;/div&gt;
             &lt;form onSubmit={handleSubmit} className={styles.form}&gt;
                 &lt;div className={styles.inputContainer}&gt;
@@ -348,7 +354,7 @@ function Search () {
                         disabled={isLoading || isFetching}
                     /&gt;
                     &lt;img
-                        src="../public/Images/search_icon.svg"
+                        src="/src/assets/Images/search_icon.svg"
                         alt="Search Icon"
                         onClick={handleSubmit}
                         className={styles.searchIcon}
@@ -360,7 +366,7 @@ function Search () {
                     &lt;div className={styles.loadingMessage}&gt;
                         &lt;p&gt;Loading...&lt;/p&gt;
                         &lt;img
-                            src="../public/Images/loading_icon.svg"
+                            src="/src/assets/Images/search_icon.svg"
                             alt="Loading Icon"
                             className={styles.loadingIcon}
                         /&gt;
@@ -391,7 +397,7 @@ export default Search</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-01-31T00:47:05.153Z
+                at 2025-02-02T19:34:38.402Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

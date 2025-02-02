@@ -3,15 +3,11 @@ import { useSearchQuery } from "../../Features/Search/apisSearchSlice";
 import { useParams } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import styles from './Subreddit.module.css'
-import reddituser1Icon from '../../assets/Images/reddituser1_icon.svg';
-import reddituser2Icon from '../../assets/Images/reddituser2_icon.svg';
-import reddituser3Icon from '../../assets/Images/reddituser3_icon.svg';
-import subredditIcon from '../../assets/Images/subreddit_icon.svg'
 import { useState } from "react";
 
 function Subreddit () {
     const [expandedIds, setExpandedIds] = useState(new Set())
-    const userIcons = [reddituser1Icon, reddituser2Icon, reddituser3Icon];
+    const userIcons = ['/src/assets/Images/reddituser1_icon.svg','/src/assets/Images/reddituser2_icon.svg','/src/assets/Images/reddituser3_icon.svg'];
     const searchTerm = useSelector(state => state.searchTerm)
 
     const { subreddit } = useParams()
@@ -78,7 +74,7 @@ function Subreddit () {
 
         <div className={styles.subredditInfo}>
           <img
-            src={subredditIcon}
+            src='/src/assets/Images/subreddit_icon.svg'
             alt="Subreddit Icon"
             className={styles.subredditIcon}
           />
