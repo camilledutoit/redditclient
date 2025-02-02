@@ -85,8 +85,8 @@ function Subreddit () {
           <div className={styles.subredditText}>
             <h1 className={styles.subredditName}>{dataSubreddit.display_name_prefixed}</h1>
             <p className={styles.subredditStats}>
-              subscribers: {dataSubreddit.subscribers}&nbsp;&nbsp; · &nbsp;&nbsp;active users: {dataSubreddit.accounts_active} &nbsp;&nbsp;·&nbsp;&nbsp;
-              created on {new Date(dataSubreddit.created_utc * 1000).toLocaleDateString()}
+              subscribers: {dataSubreddit.subscribers}<span className={styles.subredditUsersDate}>&nbsp;&nbsp; · &nbsp;&nbsp;active users: {dataSubreddit.accounts_active} &nbsp;&nbsp;·&nbsp;&nbsp;
+              created on {new Date(dataSubreddit.created_utc * 1000).toLocaleDateString()}</span>
             </p>
           </div>
         </div>

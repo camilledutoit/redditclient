@@ -28,6 +28,7 @@ body {
   place-items: center;
   justify-content: center;
   min-width: 320px;
+  min-height: 100vh;
 }
 
 h1 {
@@ -67,3 +68,8 @@ button:focus-visible {
   }
 }
 
+@media (width <600px) {
+  body {
+    min-height: 95vh;
+  }
+}
