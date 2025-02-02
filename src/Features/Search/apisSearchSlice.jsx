@@ -5,7 +5,7 @@ const apiSearchSlice = createApi ({
     baseQuery: fetchBaseQuery({
         baseUrl:'https://www.reddit.com',
         headers: {
-            'User-Agent': 'MyApp/1.0.0'
+            //'User-Agent': 'MyApp/1.0.0'
         }}),
     tagTypes: ['SearchResults'],
     endpoints: (builder) => ({
