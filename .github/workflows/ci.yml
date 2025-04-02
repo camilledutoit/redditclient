@@ -1,0 +1,152 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allow manual triggering of the workflow
+  release:
+    types:
+      - published # Trigger on new releases (e.g., for production deployment)
+
+permissions:
+  id-token: write # Required for Sigstore keyless signing
+  contents: read
+  packages: write # Required to push images to GHCR
+  deployments: write # Required for GitHub Environments deployments
+
+jobs:
+  build-and-test:
+    name: Build, Test, and Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code base
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Build multi-stage Docker image
+      - name: Build Docker image
+        run: |
+          docker build --target builder -t redditclient-builder .
+          docker build -t redditclient:latest .
+
+      # Step 4: Run tests in the builder stage
+      - name: Run tests
+        run: |
+          docker run --rm redditclient-builder npm test
+
+      # Step 5: Verify health check in production container
+      - name: Verify health check
+        run: |
+          docker run -d --name redditclient -p 4000:4000 redditclient:latest
+          sleep 30
+          curl -f http://localhost:4000/health
+          docker stop redditclient
+
+      # Step 6: Scan Docker image with Snyk
+      - name: Scan Docker image with Snyk
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: redditclient:latest
+          args: --severity-threshold=high
+
+      # Step 7: Install Conftest
+      - name: Install Conftest
+        run: |
+          wget https://github.com/open-policy-agent/conftest/releases/download/v0.58.0/conftest_0.58.0_Linux_x86_64.tar.gz
+          tar -xzf conftest_0.58.0_Linux_x86_64.tar.gz -C /usr/local/bin
+
+      # Step 8: Run OPA policies on Dockerfile
+      - name: Run OPA policies
+        run: |
+          conftest test ./dockerfile --policy ./policies/docker.rego
+
+      # Step 9: Install the Latest Cosign
+      - name: Install Cosign
+        run: |
+          COSIGN_VERSION="v2.4.3"
+          curl -sLo cosign https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}/cosign-linux-amd64
+          chmod +x cosign
+          sudo mv cosign /usr/local/bin/
+
+      # Step 10: Login to GitHub Container Registry
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 11: Push Docker image to GHCR
+      - name: Push Docker image to GHCR
+        run: |
+          docker tag redditclient:latest ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/${{ github.repository }}:latest
+
+      # Step 12: Fetch the Image Digest
+      - name: Get Image Digest
+        id: digest
+        run: |
+          IMAGE_DIGEST=$(skopeo inspect docker://ghcr.io/${{ github.repository }}:latest | jq -r '.Digest')
+          echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
+
+      # Step 13: Sign the Docker image with Sigstore
+      - name: Signing Docker image with Sigstore
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+          COSIGN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cosign sign --yes ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
+
+      # Step 14: Verify the Docker image signature
+      - name: Verify Docker image signature
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+        run: |
+          cosign verify \
+            --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/ci.yml@refs/heads/main" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
+
+  deploy:
+    name: Deploy to AWS ECS
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    environment: production
+    if: github.event_name == 'release' && github.event.action == 'published'
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Configure AWS CLI
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # Update to your region
+
+      # Step 3: Deploy the Docker image to ECS
+      - name: Deploy to ECS
+        run: |
+          aws ecs update-service \
+            --cluster <your-cluster-name> \
+            --service <your-service-name> \
+            --force-new-deployment
+
+      # Step 4: Verify Deployment
+      - name: Verify Deployment
+        run: |
+          echo "Deployment to AWS ECS is complete. Monitor logs and health checks for confirmation."

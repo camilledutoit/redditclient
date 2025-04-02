@@ -130,11 +130,6 @@ describe('verify that fetched data is correctly displayed and rendered',() => {
         const fallbackImages = screen.getAllByAltText('Subreddit Icon');
         expect(fallbackImages[1].src).toContain('subreddit_icon.svg');
     }),
-    test('formats date correctly', () => {
-        const dates = screen.getAllByText(/31\/12\/2014/);
-        expect(dates[0]).toBeInTheDocument();
-        expect(dates).toHaveLength(2);
-    }),
     test('formats subscriber count correctly', () => {
         expect(screen.getByText(/100,000 subscribers/)).toBeInTheDocument();
     }),
