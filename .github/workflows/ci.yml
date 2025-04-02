@@ -98,17 +98,27 @@ jobs:
           COSIGN_EXPERIMENTAL: "true"
           COSIGN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cosign sign --yes ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
+          cosign sign --yes \
+            ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
 
       # Step 14: Verify the Docker image signature
       - name: Verify Docker image signature
         env:
           COSIGN_EXPERIMENTAL: "true"
         run: |
-          cosign verify \
-            --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/ci.yml@refs/heads/main" \
-            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
-            ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            # For releases, use the tag ref
+            cosign verify \
+              --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/ci.yml@refs/tags/${{ github.event.release.tag_name }}" \
+              --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+              ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
+          else
+            # For main branch, use refs/heads/main
+            cosign verify \
+              --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/ci.yml@refs/heads/main" \
+              --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+              ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
+          fi
 
   deploy:
     name: Deploy to AWS ECS
