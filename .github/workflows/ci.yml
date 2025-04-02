@@ -106,8 +106,13 @@ jobs:
         env:
           COSIGN_EXPERIMENTAL: "true"
         run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            CERT_REF="${{ github.ref }}"
+          else
+            CERT_REF="refs/heads/main"
+          fi
           cosign verify \
-            --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/${{ github.workflow }}@refs/heads/main" \
+            --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/ci.yml@$CERT_REF" \
             --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
             ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
 
