@@ -106,19 +106,10 @@ jobs:
         env:
           COSIGN_EXPERIMENTAL: "true"
         run: |
-          if [[ "${{ github.event_name }}" == "release" ]]; then
-            # For releases, use the tag ref
-            cosign verify \
-              --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/ci.yml@refs/tags/${{ github.event.release.tag_name }}" \
-              --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
-              ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
-          else
-            # For main branch, use refs/heads/main
-            cosign verify \
-              --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/ci.yml@refs/heads/main" \
-              --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
-              ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
-          fi
+          cosign verify \
+            --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/${{ github.workflow }}@refs/heads/main" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            ghcr.io/${{ github.repository }}@$IMAGE_DIGEST
 
   deploy:
     name: Deploy to AWS ECS
