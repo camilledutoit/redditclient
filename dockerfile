@@ -9,13 +9,15 @@ WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci
 
 # Copy source code and build the app
 COPY . .
 RUN npm run build
 
-#Run tests
+# Stage 2: Test
+FROM builder AS tester
+# Run tests (this stage has all dev dependencies)
 RUN npm test
 
 # Prune unnecessary dependencies
