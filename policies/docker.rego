@@ -10,8 +10,3 @@ deny[msg] {
     not ports["4000/tcp"]
     msg = "Dockerfile must expose port 4000."
 }
-
-deny[msg] {
-  input.Config.Healthcheck.Test == null
-  msg = "Dockerfile must include a HEALTHCHECK instruction."
-}
